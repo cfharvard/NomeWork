@@ -13,6 +13,18 @@ def index():
 def homepage():
     return render_template("homepage.html")
 
+@app.route("/classes")
+def classes():
+    return render_template("classes.html")
+
+@app.route("/timer")
+def timer():
+    return render_template("timer.html")
+
+@app.route("/analytics")
+def analytics():
+    return render_template("analytics.html")
+
 @app.route("/login")
 def login():
     return render_template("login.html")
