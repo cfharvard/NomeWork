@@ -10,7 +10,7 @@ body {
     width: 100vw;
   }
   
-  #menu-items {
+  .menu-items {
     margin-left: clamp(4rem, 20vw, 48rem);
     position: relative;
     z-index: 2;
