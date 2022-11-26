@@ -9,23 +9,27 @@ Session(app)
 def index():
     return render_template("index.html")
 
+@app.route("/analytics")
+@login_required
+def analytics():
+    return render_template("analytics.html")
+    
+@app.route("/classes")
+@login_required
+def classes():
+    return render_template("classes.html") 
+
 @app.route("/homepage")
 @login_required
 def homepage():
     return render_template("homepage.html")
 
-@app.route("/classes")
-def classes():
-    return render_template("classes.html")
-
-@app.route("/timer")
-def timer():
-    return render_template("timer.html")
-
-@app.route("/analytics")
-def analytics():
-    return render_template("analytics.html")
-
 @app.route("/login")
 def login():
     return render_template("login.html")
+
+@app.route("/timer")
+@login_required
+def timer():
+    return render_template("timer.html")
+
