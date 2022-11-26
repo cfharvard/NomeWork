@@ -3,6 +3,7 @@ from flask_session import Session
 from helpers import login_required
 
 app = Flask(__name__)
+Session(app)
 
 @app.route("/")
 def index():
