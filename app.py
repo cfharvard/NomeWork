@@ -19,10 +19,9 @@ def analytics():
 def classes():
     return render_template("classes.html") 
 
-@app.route("/homepage")
-@login_required
-def homepage():
-    return render_template("homepage.html")
+@app.route("/register")
+def register():
+    return render_template("register.html")
 
 @app.route("/login")
 def login():
