@@ -7,15 +7,15 @@ Session(app)
 
 @app.route("/")
 def index():
-    return render_template("timertest.html")
+    return render_template("index.html")
 
 @app.route("/analytics")
-@login_required
+#@login_required
 def analytics():
     return render_template("analytics.html")
     
 @app.route("/classes")
-@login_required
+#@login_required
 def classes():
     return render_template("classes.html") 
 
@@ -28,7 +28,7 @@ def login():
     return render_template("login.html")
 
 @app.route("/timer")
-@login_required
+#@login_required
 def timer():
     return render_template("timer.html")
 
