@@ -52,5 +52,5 @@ function reset() {
 }
 
 function submit() {
-
+    return
 }
