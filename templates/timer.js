@@ -1,10 +1,10 @@
 //Global variables
-window.onload=function(){
-    const timer_el = document.querySelector('.watch .time');
-    const start_btn = document.getElementById('start');
-    const stop_btn = document.getElementById('stop');
-    const reset_btn = document.getElementById('reset');
-    const submit_btn = document.getElementById('submit');
+
+const time_el = document.querySelector('.watch .time');
+const start_btn = document.getElementById('start');
+const stop_btn = document.getElementById('stop');
+const reset_btn = document.getElementById('reset');
+const submit_btn = document.getElementById('submit');
 
 
 let seconds = 0;
@@ -15,7 +15,6 @@ start_btn.addEventListener('click', start);
 stop_btn.addEventListener('click', stop);
 reset_btn.addEventListener('click', reset);
 submit_btn.addEventListener('click', submit);
-}
 
 
 
@@ -28,11 +27,22 @@ function timer() {
     let mins = Math.floor(seconds - (hrs * 3600) / 60);
     let secs = seconds % 60;
     
-    if (secs < 10) secs = '0' + secs;
-    if (mins < 10) secs = '0' + mins;
-    if (hrs < 10) secs = '0' + hrs;
+    if (secs < 10) 
+    {
+        secs = '0' + secs;
+    }
 
-    timer_el.innerHTML = `${hrs}:${mins}:${secs}`;
+    if (mins < 10) 
+    {
+        secs = '0' + mins;
+    }
+
+    if (hrs < 10) 
+    {
+        secs = '0' + hrs;
+    }
+
+    time_el.innerText = `${hrs}:${mins}:${secs}`;
 }
 
 function start() {
@@ -51,9 +61,11 @@ function stop() {
 function reset() {
     stop();
     seconds = 0;
-    timer_el.innerHTML = '00:00:00'
+    time_el.innerText = '00:00:00'
 }
 
 function submit() {
 
 }
+
+
