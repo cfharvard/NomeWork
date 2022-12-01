@@ -7,7 +7,7 @@ Session(app)
 
 @app.route("/")
 def index():
-    return render_template("index.html")
+    return render_template("timertest.html")
 
 @app.route("/analytics")
 @login_required
