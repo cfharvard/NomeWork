@@ -23,9 +23,9 @@ function timer() {
     seconds++;
 
     // Format our time
-    let hrs = Math.floor(seconds / 3600);
-    let mins = Math.floor(seconds - (hrs * 3600) / 60);
     let secs = seconds % 60;
+    let mins = Math.floor(seconds - (hrs * 3600) / 60);
+    let hrs = Math.floor(seconds / 3600);
     
     if (secs < 10) 
     {
