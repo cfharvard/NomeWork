@@ -26,8 +26,8 @@ function timer() {
     let secs = seconds % 60;
     
     if (secs < 10) secs = '0' + secs;
-    if (mins < 10) secs = '0' + mins;
-    if (hrs < 10) secs = '0' + hrs;
+    if (mins < 10) mins = '0' + mins;
+    if (hrs < 10) hrs = '0' + hrs;
 
     timer_el.innerHTML = `${hrs}:${mins}:${secs}`;
     console.log(secs, mins, hrs);
