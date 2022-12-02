@@ -109,11 +109,12 @@ def login():
     else:
         return render_template("login.html")
 
-@app.route('/ProcessSeconds/<string:seconds>', methods=['POST'])
-def ProcessSeconds(seconds):
-    seconds= json.loads(seconds)
-    seconds = int(seconds)
-    print(seconds)
+@app.route('/ProcessSeconds', methods=["GET","POST"])
+def ProcessSeconds():
+    if request.method == "POST":
+        seconds = request.json("seconds")
+        print(seconds)
+    return render_template("timer.html")
     #flash message function("Submitted!")
 
 

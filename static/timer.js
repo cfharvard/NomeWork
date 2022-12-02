@@ -31,7 +31,6 @@ function timer() {
     if (hrs < 10) hrs = '0' + hrs;
 
     timer_el.innerHTML = `${hrs}:${mins}:${secs}`;
-    console.log(seconds);
 }
 
 function start() {
@@ -48,7 +47,6 @@ function stop() {
     clearInterval(interval);
     interval = null;
     stopreq = true;
-    console.log(seconds);
 }
 
 function reset() {
@@ -60,12 +58,12 @@ function reset() {
 function submit() {
     if (stopreq && (seconds!=0))
     {
-        const request = new XMLHttpRequest()
-        request.open('POST', `ProcessSeconds/${JSON.stringify(193)}`)
-        console.log(request);
-        request.send();
-        seconds = 0;
-        timer_el.innerHTML = '00:00:00'
+        seconds = seconds.toString();
+        $.ajax({
+            url:"/ProcessSeconds",
+            type:"POST",
+            contentType: "application/json",
+            data: JSON.stringify(seconds)});
     }
     else
     {
