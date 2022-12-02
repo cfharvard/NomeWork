@@ -1,8 +1,9 @@
 from flask import Flask, render_template, redirect, render_template, request, session, flash, get_flashed_messages
 from flask_session import Session
-from helpers import login_required, generate_password_hash, check_password_hash
+from helpers import login_required
 import json
 import sqlite3
+from werkzeug.security import check_password_hash, generate_password_hash
 
 
 app = Flask(__name__)
@@ -44,21 +45,17 @@ def register():
             flash('Enter Confirmation')
             return render_template("register.html") 
 
-        # password length check
-        if len(request.form.get("password")):
-            flash('Password must be 8 characters')
-            return render_template("register.html") 
-
         # check if password and confirm are the same
         if request.form.get("password") != request.form.get("confirmation"):
             flash('Password and Confirmation do not match')
             return render_template("register.html") 
 
         # rows with that username (should be 0 b/c username shouldn't taken)
-        rows = db.execute("SELECT username FROM users WHERE username=?;", [request.form.get("username")])
+        db.execute("SELECT username FROM users WHERE username=?;", [request.form.get("username")])
+        rows = db.fetchone()
 
         # check if username is already taken
-        if len(rows) == 1:
+        if rows is not None:
             flash('Username is already taken')
             return render_template("register.html") 
 
@@ -72,7 +69,7 @@ def register():
         rows = db.execute("SELECT id FROM users WHERE username=?", [request.form.get("username")])
 
         # log user in
-        session["user_id"] = rows[0]["id"]
+        session["user_id"] = rows[0][0]
 
         return redirect("/")
 
