@@ -33,6 +33,16 @@
         </div>
       </header>
 
+      {% with messages = get_flashed_messages() %}
+      {% if messages %}
+        {% for message in messages %}
+          <div class="alert alert-primary mb-0 text-center" role="alert">
+            {{ message }}
+          </div>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+
     {% block body %}{% endblock %}
     <footer class="mastfoot mt-auto">
         <div class="inner">

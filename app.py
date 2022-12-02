@@ -1,4 +1,4 @@
-from flask import Flask, render_template, redirect, render_template, request, session
+from flask import Flask, render_template, redirect, render_template, request, session, flash, get_flashed_messages
 from flask_session import Session
 from helpers import login_required, generate_password_hash, check_password_hash
 import json
@@ -31,22 +31,27 @@ def register():
     if request.method == "POST":
         # checks if username is entered
         if not request.form.get("username"):
+            flash('Enter Username')
             return render_template("register.html") 
 
         # checks if password is entered
         if not request.form.get("password"):
+            flash('Enter Password')
             return render_template("register.html") 
 
         # checks if confirm is entered
         if not request.form.get("confirmation"):
+            flash('Enter Confirmation')
             return render_template("register.html") 
 
         # password length check
         if len(request.form.get("password")):
+            flash('Password must be 8 characters')
             return render_template("register.html") 
 
         # check if password and confirm are the same
         if request.form.get("password") != request.form.get("confirmation"):
+            flash('Password and Confirmation do not match')
             return render_template("register.html") 
 
         # rows with that username (should be 0 b/c username shouldn't taken)
@@ -54,6 +59,7 @@ def register():
 
         # check if username is already taken
         if len(rows) == 1:
+            flash('Username is already taken')
             return render_template("register.html") 
 
         # hash password
@@ -84,10 +90,12 @@ def login():
 
         # Ensure username was submitted
         if not request.form.get("username"):
+            flash('Enter Username')
             return render_template("login.html")
 
         # Ensure password was submitted
         elif not request.form.get("password"):
+            flash('Enter Password')
             return render_template("login.html")
         
         username = request.form.get("username")
@@ -95,16 +103,17 @@ def login():
         # Query database for username
         db.execute("SELECT * FROM users WHERE username = ?", [username])
         rows = db.fetchone()
-        
+
         # Ensure username exists and password is correct
         if rows is None or not check_password_hash(rows[0]["hash"], request.form.get("password")):
+            flash('Username or Password is incorrect')
             return render_template("login.html")
 
         # Remember which user has logged in
         session["user_id"] = rows[0]["id"]
 
         # Redirect user to home page
-        return redirect("/")
+        return redirect("/homepage")
 
     # User reached route via GET (as by clicking a link or via redirect)
     else:
@@ -115,8 +124,9 @@ def ProcessSeconds():
     if request.method == "POST":
         seconds = request.json("seconds")
         print(seconds)
+    flash('Submitted!')
     return render_template("timer.html")
-    #flash message function("Submitted!")
+    
 
 
 @app.route("/timer", methods=['GET', 'POST'])
