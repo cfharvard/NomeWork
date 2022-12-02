@@ -64,7 +64,6 @@ function submit() {
             type:"POST",
             contentType: "application/json",
             data: JSON.stringify(seconds)});
-            console.log(1);
     }
     else
     {
