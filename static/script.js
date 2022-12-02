@@ -30,6 +30,7 @@ function timer() {
     if (hrs < 10) secs = '0' + hrs;
 
     timer_el.innerHTML = `${hrs}:${mins}:${secs}`;
+    console.log(secs, mins, hrs);
 }
 
 function start() {
