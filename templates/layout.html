@@ -22,11 +22,14 @@
       <header class="masthead mb-auto">
         <div class="inner">
           <h3 class="masthead-brand" href="/">Nomework</h3>
+    
           <nav class="nav nav-masthead justify-content-center">
             <a class="nav-link" href="/">Home</a>
+        {% if session["user_id"] %}
             <a class="nav-link" href="/timer">Timer</a>
             <a class="nav-link" href="/analytics">Analytics</a>
           </nav>
+          {% endif %}
         </div>
       </header>
 
