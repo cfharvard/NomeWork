@@ -4,6 +4,7 @@ const start_btn = document.getElementById('start');
 const stop_btn = document.getElementById('stop');
 const reset_btn = document.getElementById('reset');
 const submit_btn = document.getElementById('submit');
+let stopreq = false;
 
 let seconds = 0;
 let interval = null;
@@ -30,20 +31,24 @@ function timer() {
     if (hrs < 10) hrs = '0' + hrs;
 
     timer_el.innerHTML = `${hrs}:${mins}:${secs}`;
-    console.log(secs, mins, hrs);
+    console.log(seconds);
 }
 
 function start() {
     if (interval) {
         return
     }
+    stopreq = false;
 
     interval = setInterval(timer, 1000);
+    
 }
 
 function stop() {
     clearInterval(interval);
     interval = null;
+    stopreq = true;
+    console.log(seconds);
 }
 
 function reset() {
@@ -53,5 +58,17 @@ function reset() {
 }
 
 function submit() {
-    return
+    if (stopreq && (seconds!=0))
+    {
+        const request = new XMLHttpRequest()
+        request.open('POST', `ProcessSeconds/${JSON.stringify(seconds)}`)
+        console.log(request);
+        request.send();
+        seconds = 0;
+        timer_el.innerHTML = '00:00:00'
+    }
+    else
+    {
+        return
+    }
 }
