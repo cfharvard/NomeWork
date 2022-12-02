@@ -1,6 +1,7 @@
 from flask import Flask, render_template, redirect, render_template, request, session
 from flask_session import Session
 from helpers import login_required, generate_password_hash, check_password_hash
+import json
 import sqlite3
 
 app = Flask(__name__)
@@ -21,7 +22,7 @@ def analytics():
 @app.route("/homepage")
 def homepage():
     return render_template("homepage.html")
-    
+
 @app.route("/register")
 def register():
     if request.method == "POST":
@@ -103,9 +104,17 @@ def login():
     else:
         return render_template("login.html")
 
+@app.route('/ProcessSeconds/<string:seconds>', methods=['POST'])
+def ProcessSeconds(seconds):
+    seconds= json.loads(seconds)
+    seconds = int(seconds)
+    print(seconds)
+    #flash message function("Submitted!")
+
 
 @app.route("/timer")
 #@login_required
 def timer():
     return render_template("timer.html")
+
 
