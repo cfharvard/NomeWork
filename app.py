@@ -18,6 +18,10 @@ def index():
 def analytics():
     return render_template("analytics.html")
 
+@app.route("/homepage")
+def homepage():
+    return render_template("homepage.html")
+    
 @app.route("/register")
 def register():
     if request.method == "POST":
