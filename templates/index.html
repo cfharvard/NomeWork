@@ -1,3 +1,4 @@
+<<<<<<< Updated upstream
 {% extends "layout.html" %}
 
 {% block title %}
@@ -7,3 +8,95 @@
 {% block body %}
 
 {% endblock %}
+=======
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=0.41, maximum-scale=1" />
+		<meta name="description" content="Christine Nguyen portfolio">
+		<meta name="keywords" content="Christine Nguyen, UC Berkeley">
+
+  		<link rel="stylesheet" href="assets/css/styles.css">
+  		<link rel="icon" href="assets/img/letter-c.png">
+		<link rel="stylesheet" href="https://use.typekit.net/ufg7hqz.css">
+		<link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Source+Sans+Pro&display=swap" rel="stylesheet">
+
+		<title>Christine Nguyen</title>
+
+		<!-- Global site tag (gtag.js) - Google Analytics -->
+		<script async src="https://www.googletagmanager.com/gtag/js?id=UA-153644395-1"></script>
+		<script>
+		  window.dataLayer = window.dataLayer || [];
+		  function gtag(){dataLayer.push(arguments);}
+		  gtag('js', new Date());
+
+		  gtag('config', 'UA-153644395-1');
+		</script>
+	</head>
+	<body>
+
+		<!--Navigation Bar-->
+		<div id="nav">
+			<a href="#home-section" class="nav-item right">CHRISTINE NGUYEN</a>
+			<a href="#project-section" class="nav-item left">PROJECTS</a>
+			<a href="#education-section" class="nav-item left">EDUCATION</a>
+			<a href="#about-section" class="nav-item left">ABOUT</a>
+		</div>
+
+		<div class="page-content"></div>
+			
+			<!--Home Page-->
+			<section id="home-section">
+				<div class="container row">
+					<div class="container row" id="landing-container">
+						<img src="assets/img/profile.png" id="profile-icon">
+						<div class="container column" id="landing-text">
+							<h1 class="title">CHRISTINE NGUYEN</h1>
+							<p id="app"></p>
+						</div>
+					</div>
+					<a href="#logreg" class="arrow"></a>
+				</div>
+			</section>
+
+			<!--Project Section-->
+			<section class="container column" id="logref">
+				<h1 class="subtitle">LOGIN/REGISTER</h1>
+
+				<!--Individual Projects-->
+				<div class="container row" id="project-container">
+
+					<div class="each-project python">
+					  <img class="proj-img" src="assets/img/Ants_Vs_Somebees.png"/>
+					  <div class="proj-description container column">
+					  	<div class="img-description">
+							<h2>Ants</h2>
+							<p>Spin off of the popular game Plants Vs. Zombies. Combines <b>functional</b> and <b>object-oriented</b> programming paradigms.</p>
+							<br>
+							<br>
+							<i>Python</i>
+						</div>
+					  </div>
+					</div>
+
+					<div class="each-project python">
+					  <img class="proj-img" src="assets/img/Scheme_Interpreter.png"/>
+					  <div class="proj-description container column">
+					  	<div class="img-description">
+							<h2>Scheme Interpreter</h2>
+							<p>Developed an <b>interpreter</b> for a subset of the Scheme language that syntactically <b>tokenizes</b> through inputs. Implemented with <b>tail recursion</b>.</p>
+							<br>
+							<i>Python</i>
+						</div>
+					  </div>
+					</div>
+
+				</div>
+			</section>
+		<script src="https://unpkg.com/typewriter-effect@latest/dist/core.js"></script>
+		<script src="assets/scripts/scripts.js"></script>
+
+	</body>
+</html>
+>>>>>>> Stashed changes
