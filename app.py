@@ -10,7 +10,7 @@ app.config["SESSION_PERMANENT"] = False
 app.config["SESSION_TYPE"] = "filesystem"
 Session(app)
 
-con = sqlite3.connect("nomework.db")
+con = sqlite3.connect("nomework.db", check_same_thread=False)
 db = con.cursor()
 
 @app.route("/")
@@ -26,7 +26,7 @@ def analytics():
 def homepage():
     return render_template("homepage.html")
 
-@app.route("/register")
+@app.route("/register", methods=['GET', 'POST'])
 def register():
     if request.method == "POST":
         # checks if username is entered
@@ -50,7 +50,7 @@ def register():
             return render_template("register.html") 
 
         # rows with that username (should be 0 b/c username shouldn't taken)
-        rows = db.execute("SELECT username FROM users WHERE username=?", request.form.get("username"))
+        rows = db.execute("SELECT username FROM users WHERE username=?;", [request.form.get("username")])
 
         # check if username is already taken
         if len(rows) == 1:
@@ -60,10 +60,10 @@ def register():
         hashed = generate_password_hash(request.form.get("password"))
 
         # add username and password to database users table after passing all cases
-        db.execute("INSERT INTO users (username, hash) VALUES (?, ?)", request.form.get("username"), hashed)
+        db.execute("INSERT INTO users (username, hash) VALUES (?, ?)", [request.form.get("username"), hashed])
 
         # get id from updated users table
-        rows = db.execute("SELECT id FROM users WHERE username=?", request.form.get("username"))
+        rows = db.execute("SELECT id FROM users WHERE username=?", [request.form.get("username")])
 
         # log user in
         session["user_id"] = rows[0]["id"]
@@ -74,7 +74,7 @@ def register():
     else:
         return render_template("register.html")
 
-@app.route("/login")
+@app.route("/login", methods=['GET', 'POST'])
 def login():
     # Forget any user_id
     session.clear()
@@ -89,12 +89,14 @@ def login():
         # Ensure password was submitted
         elif not request.form.get("password"):
             return render_template("login.html")
+        
+        username = request.form.get("username")
 
         # Query database for username
-        rows = db.execute("SELECT * FROM users WHERE username = ?", request.form.get("username"))
+        rows = db.execute("SELECT * FROM users WHERE username = ?", [username])
 
         # Ensure username exists and password is correct
-        if len(rows) != 1 or not check_password_hash(rows[0]["hash"], request.form.get("password")):
+        if rows.count() != 1 or not check_password_hash(rows[0]["hash"], request.form.get("password")):
             return render_template("login.html")
 
         # Remember which user has logged in
@@ -115,7 +117,7 @@ def ProcessSeconds(seconds):
     #flash message function("Submitted!")
 
 
-@app.route("/timer")
+@app.route("/timer", methods=['GET', 'POST'])
 #@login_required
 def timer():
     return render_template("timer.html")

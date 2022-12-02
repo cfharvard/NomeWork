@@ -18,3 +18,6 @@
 --     seconds INTEGER NOT NULL,
 --     FOREIGN KEY (class_id) REFERENCES classes(id)
 -- );
+
+-- ALTER TABLE users
+-- RENAME COLUMN user TO username;
