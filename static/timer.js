@@ -61,7 +61,7 @@ function submit() {
     if (stopreq && (seconds!=0))
     {
         const request = new XMLHttpRequest()
-        request.open('POST', `ProcessSeconds/${JSON.stringify(seconds)}`)
+        request.open('POST', `ProcessSeconds/${JSON.stringify(193)}`)
         console.log(request);
         request.send();
         seconds = 0;
