@@ -23,9 +23,10 @@ def index():
 def analytics():
     return render_template("analytics.html")
 
-@app.route("/classes")
+@app.route("/homepage")
+@login_required
 def classes():
-    return render_template("classes.html")
+    return render_template("homepage.html")
 
 @app.route("/register", methods=['GET', 'POST'])
 def register():
@@ -132,11 +133,17 @@ def ProcessSeconds():
     flash('Submitted!')
     return render_template("timer.html")
     
-
-
 @app.route("/timer", methods=['GET', 'POST'])
-#@login_required
+@login_required
 def timer():
     return render_template("timer.html")
+
+@app.route("/logout")
+def logout():
+    # Forget any user_id
+    session.clear()
+
+    # Redirect user to login form
+    return redirect("/")
 
 
