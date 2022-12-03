@@ -63,22 +63,23 @@ def register():
         hashed = generate_password_hash(request.form.get("password"))
 
         # add username and password to database users table after passing all cases
-        db.execute("INSERT INTO users (username, hash) VALUES (?, ?)", [request.form.get("username"), hashed])
+        db.execute("INSERT INTO users (username, hash) VALUES (?, ?)", (request.form.get("username"), hashed))
+        con.commit()
 
         # get id from updated users table
         rows = db.execute("SELECT id FROM users WHERE username=?", [request.form.get("username")])
 
         # log user in
-        session["user_id"] = rows[0][0]
+        session["user_id"] = rows.fetchall()[0]
 
-        return redirect("/")
+        return render_template("/login")
 
     # when requested via get, display registration form
     else:
         return render_template("register.html")
 
 @app.route("/login", methods=['GET', 'POST'])
-def login():
+def login(): 
     # Forget any user_id
     session.clear()
 
@@ -98,11 +99,10 @@ def login():
         username = request.form.get("username")
 
         # Query database for username
-        db.execute("SELECT * FROM users WHERE username = ?", [username])
-        rows = db.fetchone()
-
+        rows = db.execute("SELECT * FROM users WHERE username = ?", [username])
+        
         # Ensure username exists and password is correct
-        if rows is None or not check_password_hash(rows[0]["hash"], request.form.get("password")):
+        if rows is None or not check_password_hash(rows.fetchall()[0], request.form.get("password")):
             flash('Username or Password is incorrect')
             return render_template("login.html")
 
