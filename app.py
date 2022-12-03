@@ -16,7 +16,10 @@ db = con.cursor()
 
 @app.route("/")
 def index():
-    return render_template("index.html")
+    if session.get('logged_in') == True:
+        return render_template("homepage.html") 
+    else:
+        return render_template("index.html")
 
 @app.route("/analytics")
 @login_required
