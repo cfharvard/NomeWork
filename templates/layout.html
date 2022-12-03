@@ -26,8 +26,10 @@
           <nav class="nav nav-masthead justify-content-center">
             <a class="nav-link" href="/">Home</a>
         {% if session["user_id"] %}
+            <a class="nav-link" href="/classes">Home</a>
             <a class="nav-link" href="/timer">Timer</a>
             <a class="nav-link" href="/analytics">Analytics</a>
+            <a class="nav-link" href="/logout">Logout</a>
           </nav>
           {% endif %}
         </div>
