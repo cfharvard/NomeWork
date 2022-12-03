@@ -23,9 +23,9 @@ def index():
 def analytics():
     return render_template("analytics.html")
 
-@app.route("/homepage")
-def homepage():
-    return render_template("homepage.html")
+@app.route("/classes")
+def classes():
+    return render_template("classes.html")
 
 @app.route("/register", methods=['GET', 'POST'])
 def register():
@@ -72,7 +72,7 @@ def register():
         # log user in
         session["user_id"] = rows.fetchall()[0]
 
-        return render_template("/login")
+        return render_template("login.html")
 
     # when requested via get, display registration form
     else:
@@ -96,21 +96,29 @@ def login():
             flash('Enter Password')
             return render_template("login.html")
         
-        username = request.form.get("username")
+        username_field = request.form.get("username")
 
         # Query database for username
-        rows = db.execute("SELECT * FROM users WHERE username = ?", [username])
-        
+        db.execute("SELECT username FROM users WHERE username = ?", [username_field])
+        username = db.fetchone()
+   
+        db.execute("SELECT hash FROM users WHERE username = ?", [username_field])
+        pwhash = db.fetchone()
+
         # Ensure username exists and password is correct
-        if rows is None or not check_password_hash(rows.fetchall()[0], request.form.get("password")):
+        # if rows is None or not check_password_hash(rows.fetchall()[0], request.form.get("password")):
+        #     flash('Username or Password is incorrect')
+        #     return render_template("login.html")
+
+        if username is None or not check_password_hash(pwhash[0], request.form.get("password")):
             flash('Username or Password is incorrect')
             return render_template("login.html")
-
+   
         # Remember which user has logged in
-        session["user_id"] = rows[0]["id"]
+        session["user_id"] = username[0]
 
         # Redirect user to home page
-        return redirect("/homepage")
+        return render_template("homepage.html")
 
     # User reached route via GET (as by clicking a link or via redirect)
     else:
