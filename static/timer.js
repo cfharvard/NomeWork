@@ -48,7 +48,7 @@ function stop() {
 function reset() {
     stop();
     seconds = 0;
-    timer_el.innerHTML = '00:00:00'
+    timer_el.innerHTML = '00:00:00';
 }
 
 function submit() {
@@ -57,5 +57,6 @@ function submit() {
         request = new XMLHttpRequest();
         request.open('POST', `/submit/${JSON.stringify(seconds)}`);
         request.send();
+        timer_el.innerHTML = '00:00:00';
     }
 }
