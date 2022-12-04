@@ -1,4 +1,4 @@
-from flask import Flask, render_template, jsonify, redirect, render_template, request, session, flash, get_flashed_messages
+from flask import Flask, render_template, redirect, render_template, request, session, flash, get_flashed_messages
 from flask_session import Session
 from helpers import login_required
 import json
@@ -18,7 +18,10 @@ db = con.cursor()
 @login_required
 def index():
     if request.method == "POST":
-        return 
+        db.execute("INSERT INTO classes (name, user_id) VALUES (?, ?)", (request.form.get("classname"), session["user_id"]))
+        con.commit()
+        return redirect("/")
+
     else:
         db.execute("SELECT name FROM classes WHERE user_id = ?", [session["user_id"]])
         userclasses = db.fetchall()
@@ -82,7 +85,7 @@ def register():
         rows = db.execute("SELECT id FROM users WHERE username=?", [request.form.get("username")])
 
         # log user in
-        session["user_id"] = rows.fetchall()[0]
+        #session["user_id"] = rows.fetchall()[0]
 
         return render_template("login.html")
 
@@ -117,11 +120,6 @@ def login():
         db.execute("SELECT hash FROM users WHERE username = ?", [username_field])
         pwhash = db.fetchone()
 
-        # Ensure username exists and password is correct
-        # if rows is None or not check_password_hash(rows.fetchall()[0], request.form.get("password")):
-        #     flash('Username or Password is incorrect')
-        #     return render_template("login.html")
-
         if username is None or not check_password_hash(pwhash[0], request.form.get("password")):
             flash('Username or Password is incorrect')
             return render_template("login.html")
@@ -139,9 +137,8 @@ def login():
 @app.route('/ProcessSeconds', methods=["GET","POST"])
 def ProcessSeconds():
     if request.method == "POST":
-        temp = {} # Creates a dictionary to store JSON value
-        print(temp)
-        return redirect('/timer')
+        seconds = request.json("seconds")
+        print(seconds)
     flash('Submitted!')
     return render_template("timer.html")
     
