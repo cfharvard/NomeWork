@@ -135,13 +135,13 @@ def login():
     else:
         return render_template("login.html")
 
-@app.route('/submit', methods=["GET","POST"])
-def ProcessSeconds():
+@app.route('/submit/<string:seconds>', methods=["GET","POST"])
+def submit(seconds):
     if request.method == "POST":
-        seconds = request.json("seconds")
+        seconds = json.loads(seconds)
         print(seconds)
-    flash('Submitted!')
-    return render_template("timer.html")
+        flash('Submitted!')
+        return redirect('/timer')
     
 @app.route("/timer", methods=['GET', 'POST'])
 @login_required
