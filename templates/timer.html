@@ -6,21 +6,7 @@
 
 {% block body %}
 <h1 class="cover-heading">Timer</h1>
-<div class="mb-3">
-<form action="/submit/" method="POST">
-    <select class="form-select mx-auto w-auto" id="class" name="class">
-        <!--Dropdown for classes -->
-        <option disabled selected>Class</option>
-        {% for class in classes %}
 
-            <option value="{{ class }}"> {{ class }} </option>
-
-        {% endfor %}
-    </select>
-</form>
-
-
-</div>
 <div class="watch">
     <div class="time">
         00:00:00
@@ -29,14 +15,28 @@
         <button id="start">Start</button>
         <button id="stop">Stop</button>
         <button id="reset">Reset</button>
-        <form>
         <button id="submit" type=>Submit</button>
-        <select>
-            
-        </select>
-        </form>
         <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.5/jquery.min.js"></script>
         <script type="text/javascript" src="/static/timer.js"></script>
     </div>
+</div>
+<div class="mb-3">
+    
+    <form action="/timer" method="post">
+        <div class="form-group">
+            <select class="form-select mx-auto w-auto" id="class" name="class">
+                <!--Dropdown for classes -->
+                <option disabled selected>Class</option>
+                {% for class in classes %}
+
+                    <option value="{{ class }}"> {{ class }} </option>
+
+                {% endfor %}
+            </select>
+        </div>
+        <div>
+            <button class="btn btn-primary btn-sm" type="submit">Submit</button>
+        </div>
+    </form>
 </div>
 {% endblock %}

@@ -138,37 +138,42 @@ def login():
 @app.route('/submit/<string:seconds>', methods=["GET","POST"])
 @login_required
 def submit(seconds):
-    if request.method == "POST":
-
-        global time
-        time = json.loads(seconds)
-        print(time)
-        classname = request.form.get("class")
-        print(classname)
-
-        # add seconds to database
-        # db.execute("SELECT id FROM classes WHERE user_id = ? AND name = ?", [session["user_id"], classname])
-        # classid = db.fetchall()
-        # print(classid)
-
-        # db.execute("INSERT INTO times (seconds, user_id, class_id) VALUES (?, ?, ?)", [seconds, session["user_id"], classid])
-        # con.commit()
-        
-        return render_template("timer.html")
+    global time
+    time = json.loads(seconds)
+    print(time)
+    
+    return redirect("/timer")
     
 @app.route("/timer", methods=["GET","POST"])
 @login_required
 def timer():
-    global time
-    print(time)
-    db.execute("SELECT name FROM classes WHERE user_id = ?", [session["user_id"]])
-    userclasses = db.fetchall()
+    if request.method == "POST":
+        global time
+        print(time)
+        
+        classname = request.form.get("class")
+        print(classname)
 
-    classes = []
-    for x in range(len(userclasses)):
-        classes.append(userclasses[x][0])
-    
-    return render_template("timer.html", classes=classes)
+        # add seconds to database
+        db.execute("SELECT id FROM classes WHERE user_id = ? AND name = ?", [session["user_id"], classname])
+        classid = db.fetchone()[0]
+        
+        print(classid)
+
+        db.execute("INSERT INTO times (seconds, user_id, class_id) VALUES (?, ?, ?)", [time, session["user_id"], classid])
+        con.commit()
+        
+        return render_template("timer.html")
+
+    else:
+        db.execute("SELECT name FROM classes WHERE user_id = ?", [session["user_id"]])
+        userclasses = db.fetchall()
+
+        classes = []
+        for x in range(len(userclasses)):
+            classes.append(userclasses[x][0])
+        
+        return render_template("timer.html", classes=classes)
     
 @app.route("/logout")
 def logout():
