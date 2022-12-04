@@ -55,11 +55,9 @@ function reset() {
 function submit() {
     if (seconds > 0)
     {
-
         requestseconds = new XMLHttpRequest();
         request.open('POST', `/submit/${JSON.stringify(seconds)}`);
         request.send();
         timer_el.innerHTML = '00:00:00';
-
     }
 }
