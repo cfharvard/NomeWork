@@ -19,7 +19,6 @@ db = con.cursor()
 def index():
     if request.method == "POST":
         db.execute("INSERT INTO classes (name, user_id) VALUES (?, ?)", [request.form.get("classname"), session["user_id"]])
-        print("commited")
         con.commit()
         return redirect("/")
 
@@ -27,7 +26,11 @@ def index():
         db.execute("SELECT name FROM classes WHERE user_id = ?", [session["user_id"]])
         userclasses = db.fetchall()
 
-        return render_template("index.html", userclasses=userclasses)
+        classes = []
+        for x in range(len(userclasses)):
+            classes.append(userclasses[x][0])
+
+        return render_template("index.html", classes=classes)
         
 
 @app.route("/analytics")
@@ -136,7 +139,16 @@ def submit(seconds):
     if request.method == "POST":
         seconds = json.loads(seconds)
         print(seconds)
-        flash('Submitted!')
+
+        
+        # add seconds to database
+        db.execute("SELECT id FROM classes WHERE user_id = ? AND name = ?", [session["user_id"], request.form.get("class")])
+        classid = db.fetchall()
+        print(classid)
+
+        db.execute("INSERT INTO times (seconds, user_id, class_id) VALUES (?, ?, ?)", [seconds, session["user_id"], classid])
+        con.commit()
+        
         return render_template('timer.html')
     
 @app.route("/timer")
@@ -145,9 +157,12 @@ def timer():
     db.execute("SELECT name FROM classes WHERE user_id = ?", [session["user_id"]])
     userclasses = db.fetchall()
 
-    return render_template("timer.html", userclasses=userclasses)
+    classes = []
+    for x in range(len(userclasses)):
+        classes.append(userclasses[x][0])
     
-
+    return render_template("timer.html", classes=classes)
+    
 @app.route("/logout")
 def logout():
     # Forget any user_id
