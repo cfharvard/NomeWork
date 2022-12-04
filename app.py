@@ -134,7 +134,7 @@ def login():
     else:
         return render_template("login.html")
 
-@app.route('/submit/<string:seconds>/<string:classname>', methods=["GET","POST"])
+@app.route('/submit/<string:seconds>', methods=["GET","POST"])
 def submit(seconds):
     if request.method == "POST":
         seconds = json.loads(seconds)
