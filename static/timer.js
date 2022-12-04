@@ -56,17 +56,7 @@ function reset() {
 }
 
 function submit() {
-    if (stopreq && (seconds!=0))
-    {
-        seconds = seconds.toString();
-        $.ajax({
-            url:"/ProcessSeconds",
-            type:"POST",
-            contentType: "application/json",
-            data: JSON.stringify(seconds)});
-    }
-    else
-    {
-        return
-    }
+    request = new XMLHttpRequest();
+    request.open('POST', `/submit/${JSON.stringify(seconds)}`);
+    request.send();
 }
