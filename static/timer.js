@@ -6,6 +6,7 @@ const reset_btn = document.getElementById('reset');
 let stopreq = false;
 
 let seconds = 0;
+let classname = null;
 let interval = null;
 
 //Event listeners
@@ -54,9 +55,11 @@ function reset() {
 function submit() {
     if (seconds > 0)
     {
-        request = new XMLHttpRequest();
-        request.open('POST', `/submit/${JSON.stringify(seconds)}`);
+        classname = document.getElementById('class');
+        requestseconds = new XMLHttpRequest();
+        request.open('POST', `/submit/${JSON.stringify(seconds)}/${JSON.stringify(classname)}`);
         request.send();
         timer_el.innerHTML = '00:00:00';
+
     }
 }

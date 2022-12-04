@@ -134,15 +134,16 @@ def login():
     else:
         return render_template("login.html")
 
-@app.route('/submit/<string:seconds>', methods=["GET","POST"])
+@app.route('/submit/<string:seconds>/<string:classname>', methods=["GET","POST"])
 def submit(seconds):
     if request.method == "POST":
         seconds = json.loads(seconds)
+        classname = json.loads(classname)
         print(seconds)
+        print(classname)
 
-        
         # add seconds to database
-        db.execute("SELECT id FROM classes WHERE user_id = ? AND name = ?", [session["user_id"], request.form.get("class")])
+        db.execute("SELECT id FROM classes WHERE user_id = ? AND name = ?", [session["user_id"], classname])
         classid = db.fetchall()
         print(classid)
 
