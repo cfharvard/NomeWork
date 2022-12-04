@@ -56,6 +56,7 @@ function submit() {
     if (seconds > 0)
     {
         classname = document.getElementById('class');
+        console.log(classname)
         requestseconds = new XMLHttpRequest();
         request.open('POST', `/submit/${JSON.stringify(seconds)}/${JSON.stringify(classname)}`);
         request.send();
