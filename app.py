@@ -74,7 +74,7 @@ def register():
         rows = db.execute("SELECT id FROM users WHERE username=?", [request.form.get("username")])
 
         # log user in
-        session["user_id"] = rows.fetchall()[0]
+        #session["user_id"] = rows.fetchall()[0]
 
         return render_template("login.html")
 
@@ -108,11 +108,6 @@ def login():
    
         db.execute("SELECT hash FROM users WHERE username = ?", [username_field])
         pwhash = db.fetchone()
-
-        # Ensure username exists and password is correct
-        # if rows is None or not check_password_hash(rows.fetchall()[0], request.form.get("password")):
-        #     flash('Username or Password is incorrect')
-        #     return render_template("login.html")
 
         if username is None or not check_password_hash(pwhash[0], request.form.get("password")):
             flash('Username or Password is incorrect')
