@@ -135,10 +135,11 @@ def login():
         return render_template("login.html")
 
 @app.route('/submit/<string:seconds>', methods=["GET","POST"])
+@login_required
 def submit(seconds):
     if request.method == "POST":
         seconds = json.loads(seconds)
-        classname = json.loads(classname)
+        classname = request.form.get("class")
         print(seconds)
         print(classname)
 

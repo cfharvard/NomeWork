@@ -7,7 +7,7 @@
 {% block body %}
 <h1 class="cover-heading">Timer</h1>
 <div class="mb-3">
-
+<form action="/submit" method="post">
     <select class="form-select mx-auto w-auto" id="class" name="class">
         <!--Dropdown for classes -->
         <option disabled selected>Class</option>
@@ -17,6 +17,8 @@
 
         {% endfor %}
     </select>
+</form>
+
 
 </div>
 <div class="watch">
@@ -27,9 +29,7 @@
         <button id="start">Start</button>
         <button id="stop">Stop</button>
         <button id="reset">Reset</button>
-        <form action="/timer" method="post">
-            <button id="submit" onclick="submit()">Submit</button>
-        </form>
+        <button id="submit" onclick="submit()">Submit</button>
         <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.5/jquery.min.js"></script>
         <script type="text/javascript" src="/static/timer.js"></script>
     </div>
