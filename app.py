@@ -141,7 +141,7 @@ def submit(seconds):
         seconds = json.loads(seconds)
         print(seconds)
         flash('Submitted!')
-        return render_template('/timer')
+        return render_template('timer.html')
     
 @app.route("/timer", methods=['GET', 'POST'])
 @login_required
