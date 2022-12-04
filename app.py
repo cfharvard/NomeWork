@@ -139,20 +139,13 @@ def submit(seconds):
         flash('Submitted!')
         return render_template('timer.html')
     
-@app.route("/timer", methods=['GET', 'POST'])
+@app.route("/timer")
 @login_required
 def timer():
-    if request.method == "POST":
-        return render_template("timer.html")
-        #code for when submit is clicked (update sql query)
-    else:
-        db.execute("SELECT name FROM classes WHERE user_id = ?", [session["user_id"]])
-        userclasses = db.fetchall()
+    db.execute("SELECT name FROM classes WHERE user_id = ?", [session["user_id"]])
+    userclasses = db.fetchall()
 
-        for classes in range(len(userclasses)):
-            userclasses[classes] = userclasses[classes]["name"]
-
-        return render_template("timer.html", userclasses=userclasses)
+    return render_template("timer.html", userclasses=userclasses)
     
 
 @app.route("/logout")
