@@ -6,6 +6,17 @@
 
 {% block body %}
 <h1 class="cover-heading">Timer</h1>
+<div class="mb-3">
+    <select class="form-select mx-auto w-auto" name="symbol">
+        <!--Dropdown for classes -->
+        <option disabled selected>Class</option>
+        {% for class in userclasses %}
+
+            <option value="{{ class }}"> {{ class }} </option>
+
+        {% endfor %}
+    </select>
+</div>
 <div class="watch">
     <div class="time">
         00:00:00

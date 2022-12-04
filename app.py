@@ -15,21 +15,19 @@ con = sqlite3.connect("nomework.db", check_same_thread=False)
 db = con.cursor()
 
 @app.route("/")
+@login_required
 def index():
-    if session.get('logged_in') == True:
-        return render_template("homepage.html") 
-    else:
-        return render_template("index.html")
+    return render_template("index.html")
+
 
 @app.route("/analytics")
 @login_required
 def analytics():
     return render_template("analytics.html")
 
-@app.route("/homepage")
-@login_required
+@app.route("/home")
 def classes():
-    return render_template("homepage.html")
+    return render_template("home.html")
 
 @app.route("/register", methods=['GET', 'POST'])
 def register():
@@ -117,7 +115,7 @@ def login():
         session["user_id"] = username[0]
 
         # Redirect user to home page
-        return render_template("homepage.html")
+        return redirect("/")
 
     # User reached route via GET (as by clicking a link or via redirect)
     else:
@@ -134,7 +132,18 @@ def ProcessSeconds():
 @app.route("/timer", methods=['GET', 'POST'])
 @login_required
 def timer():
-    return render_template("timer.html")
+    if request.method == "POST":
+        return render_template("timer.html")
+        #code for when submit is clicked (update sql query)
+    else:
+        db.execute("SELECT name FROM classes WHERE user_id = ?", [session["user_id"]])
+        userclasses = db.fetchall()
+
+        for classes in range(len(userclasses)):
+            userclasses[classes] = userclasses[classes]["name"]
+
+        return render_template("timer.html", userclasses=userclasses)
+    
 
 @app.route("/logout")
 def logout():

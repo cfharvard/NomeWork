@@ -25,11 +25,11 @@
         {% if session["user_id"] %}
           <h3 class="masthead-brand">Nomework</h3>
         {% else %}
-          <h3><a class='masthead-brand' href="/">Nomework</a></h3>
+          <h3><a class='masthead-brand' href="/home">Nomework</a></h3>
         {% endif %}
           <nav class="nav nav-masthead justify-content-center">
         {% if session["user_id"] %}
-        <a class="nav-link" href="/homepage">Home</a>
+        <a class="nav-link" href="/">Home</a>
             <a class="nav-link" href="/timer">Timer</a>
             <a class="nav-link" href="/analytics">Analytics</a>
             <a class="nav-link" href="/logout">Logout</a>
