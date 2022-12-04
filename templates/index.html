@@ -13,24 +13,25 @@
             <th class="text-end">Hours Spent</th>
         </thead>
         <tbody>
-            {% for stock in stocks %}
-            <tr>
-                <td class="text-start">{{ stock["stock_symbol"] }}</td>
-                <td class="text-end">{{ stock["shares"] }}</td>
-            </tr>
+            {% for classes in userclasses %}
+                {% for times in usertimes %}
+                <tr>
+                    <td class="text-start">{{ classes["name"] }}</td>
+                    <td class="text-end">{{ times["total"] }}</td>
+                </tr>
+                {% endfor %}
             {% endfor %}
         </tbody>
     </table>
 </main>
 <div>
-    <form>
+    <form action="/" method="post">
         <div class="form-group">
           <label for="classname">Add Class</label>
-          <input type="text" class="form-control" id="classname" placeholder="Class Name">
+          <input type="text" class="form-control" id="classname" name="classname" placeholder="Class Name">
         </div>
         <button type="submit" class="btn btn-primary">Submit</button>
     </form>
 </div>
 
-  
 {% endblock %}

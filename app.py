@@ -14,11 +14,12 @@ Session(app)
 con = sqlite3.connect("nomework.db", check_same_thread=False)
 db = con.cursor()
 
-@app.route("/")
+@app.route("/", methods=['GET', 'POST'])
 @login_required
 def index():
     if request.method == "POST":
-        db.execute("INSERT INTO classes (name, user_id) VALUES (?, ?)", (request.form.get("classname"), session["user_id"]))
+        db.execute("INSERT INTO classes (name, user_id) VALUES (?, ?)", [request.form.get("classname"), session["user_id"]])
+        print("commited")
         con.commit()
         return redirect("/")
 
