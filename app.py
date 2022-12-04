@@ -13,6 +13,7 @@ Session(app)
 
 con = sqlite3.connect("nomework.db", check_same_thread=False)
 db = con.cursor()
+time = 0
 
 @app.route("/", methods=['GET', 'POST'])
 @login_required
@@ -138,24 +139,28 @@ def login():
 @login_required
 def submit(seconds):
     if request.method == "POST":
-        seconds = json.loads(seconds)
+
+        global time
+        time = json.loads(seconds)
+        print(time)
         classname = request.form.get("class")
-        print(seconds)
         print(classname)
 
         # add seconds to database
-        db.execute("SELECT id FROM classes WHERE user_id = ? AND name = ?", [session["user_id"], classname])
-        classid = db.fetchall()
-        print(classid)
+        # db.execute("SELECT id FROM classes WHERE user_id = ? AND name = ?", [session["user_id"], classname])
+        # classid = db.fetchall()
+        # print(classid)
 
-        db.execute("INSERT INTO times (seconds, user_id, class_id) VALUES (?, ?, ?)", [seconds, session["user_id"], classid])
-        con.commit()
+        # db.execute("INSERT INTO times (seconds, user_id, class_id) VALUES (?, ?, ?)", [seconds, session["user_id"], classid])
+        # con.commit()
         
-        return render_template('timer.html')
+        return render_template("timer.html")
     
-@app.route("/timer")
+@app.route("/timer", methods=["GET","POST"])
 @login_required
 def timer():
+    global time
+    print(time)
     db.execute("SELECT name FROM classes WHERE user_id = ?", [session["user_id"]])
     userclasses = db.fetchall()
 
