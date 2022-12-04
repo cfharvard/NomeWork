@@ -17,7 +17,17 @@ db = con.cursor()
 @app.route("/")
 @login_required
 def index():
-    return render_template("index.html")
+    if request.method == "POST":
+        return 
+    else:
+        db.execute("SELECT name FROM classes WHERE user_id = ?", [session["user_id"]])
+        userclasses = db.fetchall()
+
+        for classes in range(len(userclasses)):
+            userclasses[classes] = userclasses[classes]["name"]
+
+        return render_template("index.html", userclasses=userclasses)
+        
 
 
 @app.route("/analytics")
