@@ -3,6 +3,7 @@ const timer_el = document.querySelector('.watch .time');
 const start_btn = document.getElementById('start');
 const stop_btn = document.getElementById('stop');
 const reset_btn = document.getElementById('reset');
+const submit_btn = document.getElementById('submit')
 let stopreq = false;
 
 let seconds = 0;
@@ -13,6 +14,7 @@ let interval = null;
 start_btn.addEventListener('click', start);
 stop_btn.addEventListener('click', stop);
 reset_btn.addEventListener('click', reset);
+submit_btn.addEventListener('click', submit);
 
 // Update the timer
 function timer() {
@@ -55,7 +57,7 @@ function reset() {
 function submit() {
     if (seconds > 0)
     {
-        requestseconds = new XMLHttpRequest();
+        request = new XMLHttpRequest();
         request.open('POST', `/submit/${JSON.stringify(seconds)}`);
         request.send();
         timer_el.innerHTML = '00:00:00';
