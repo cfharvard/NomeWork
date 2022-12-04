@@ -14,12 +14,10 @@
         </thead>
         <tbody>
             {% for classes in userclasses %}
-                {% for times in usertimes %}
                 <tr>
-                    <td class="text-start">{{ classes["name"] }}</td>
-                    <td class="text-end">{{ times["total"] }}</td>
+                    <td class="text-start">{{ classes }}</td>
+                    <!-- <td class="text-end">{{ times }}</td> -->
                 </tr>
-                {% endfor %}
             {% endfor %}
         </tbody>
     </table>

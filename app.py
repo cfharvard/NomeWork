@@ -27,12 +27,8 @@ def index():
         db.execute("SELECT name FROM classes WHERE user_id = ?", [session["user_id"]])
         userclasses = db.fetchall()
 
-        for classes in range(len(userclasses)):
-            userclasses[classes] = userclasses[classes]["name"]
-
         return render_template("index.html", userclasses=userclasses)
         
-
 
 @app.route("/analytics")
 @login_required
