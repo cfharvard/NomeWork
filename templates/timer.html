@@ -6,6 +6,10 @@
 
 {% block body %}
 <h1 class="cover-heading">Timer</h1>
+<p> Start the timer when you begin work for a class and stop the timer when your work is complete. 
+    Submit the time and then submit the class directly after. Good luck studying! </p>
+
+
 
 <div class="watch">
     <div class="time">
@@ -24,7 +28,7 @@
     
     <form action="/timer" method="post">
         <div class="form-group">
-            <select class="form-select mx-auto w-auto" id="class" name="class">
+            <select class="btn btn-secondary btn-lg dropdown-toggle" id="class" name="class">
                 <!--Dropdown for classes -->
                 <option disabled selected>Class</option>
                 {% for class in classes %}
