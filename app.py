@@ -47,11 +47,8 @@ def index():
         for x in range(len(classtimes)):
             if classtimes[x] == None:
                 classtimes[x] = 0
-        
-        print(classtimes)
 
         tabledata = list(zip(classes, classtimes))
-        print(tabledata)
 
         return render_template("index.html", tabledata=tabledata)
 
@@ -61,10 +58,39 @@ def delete():
     db.execute("DELETE FROM classes WHERE class_id")
     return redirect("/")
 
-@app.route("/analytics")
+@app.route("/analytics", methods=['GET', 'POST'])
 @login_required
 def analytics():
-    return render_template("analytics.html")
+    if request.method == "POST":
+        # Generates drop down menu
+        db.execute("SELECT name FROM classes WHERE user_id = ?", [session["user_id"]])
+        userclasses = db.fetchall()
+
+        classes = []
+        for x in range(len(userclasses)):
+            classes.append(userclasses[x][0])
+        
+        # Requests the class to make a graph of
+        class_graph = request.form.get("classanalytics")
+        print(session["user_id"])
+        db.execute("SELECT timestamp FROM times WHERE class_id = (SELECT id FROM classes WHERE name = ?)", [class_graph])
+        timestamps = db.fetchall()
+        print()
+        print(timestamps)
+        print()
+        print(class_graph)
+
+        return render_template("analytics.html", classes = classes)
+
+    else:
+        db.execute("SELECT name FROM classes WHERE user_id = ?", [session["user_id"]])
+        userclasses = db.fetchall()
+
+        classes = []
+        for x in range(len(userclasses)):
+            classes.append(userclasses[x][0])
+        
+        return render_template("analytics.html", classes=classes)
 
 @app.route("/home")
 def classes():
@@ -167,7 +193,6 @@ def login():
 def submit(seconds):
     global time
     time = json.loads(seconds)
-    print(time)
     
     return redirect("/timer")
     
@@ -176,19 +201,15 @@ def submit(seconds):
 def timer():
     if request.method == "POST":
         global time
-        print(time)
         
         classname = request.form.get("class")
-        print(classname)
 
         # add seconds to database
         db.execute("SELECT id FROM classes WHERE user_id = ? AND name = ?", [session["user_id"], classname])
         classid = db.fetchone()[0]
-        
-        print(classid)
+
         # changes seconds to hour format
         time = "{:.2f}".format(time/3600)
-        print(time)
 
         db.execute("INSERT INTO times (seconds, user_id, class_id) VALUES (?, ?, ?)", [time, session["user_id"], classid])
         con.commit()
