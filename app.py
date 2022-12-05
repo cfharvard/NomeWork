@@ -181,6 +181,7 @@ def timer():
         classid = db.fetchone()[0]
         
         print(classid)
+        # changes seconds to hour format
         time = "{:.2f}".format(time/3600)
         print(time)
 

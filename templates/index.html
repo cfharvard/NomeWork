@@ -11,14 +11,17 @@
         <thead>
             <th class="text-start">Class Name</th>
             <th class="text-end">Hours Spent</th>
+            <th class="text-end">Manage Class</th>
         </thead>
         <tbody>
             {% for data in tabledata %}
                 <tr>
                     <td class="text-start">{{ data[0] }}</td>
                     <td class="text-end">{{ data[1] }}</td>
+                    <td class="text-end"><button type="submit" class="btn btn-danger">Delete Class</button></td>
                 </tr>
             {% endfor %}
+            
         </tbody>
     </table>
 </main>

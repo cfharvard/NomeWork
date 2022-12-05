@@ -21,7 +21,6 @@
     <div class="cover-container d-flex h-100 p-3 mx-auto flex-column">
       <header class="masthead mb-auto">
         <div class="inner">
-          <!-- <h3 class="masthead-brand" href="/">Nomework</h3> -->
         {% if session["user_id"] %}
           <h3 class="masthead-brand">Nomework</h3>
         {% else %}
@@ -29,7 +28,7 @@
         {% endif %}
           <nav class="nav nav-masthead justify-content-center">
           {% if session["user_id"] %}
-          <a class="nav-link" href="/">Home</a>
+              <a class="nav-link" href="/">Home</a>
               <a class="nav-link" href="/timer">Timer</a>
               <a class="nav-link" href="/analytics">Analytics</a>
               <a class="nav-link" href="/logout">Logout</a>
@@ -51,7 +50,7 @@
     {% block body %}{% endblock %}
     <footer class="mastfoot mt-auto">
         <div class="inner">
-          <p>CS50 Fall 2022</p>
+          <p>Wosenu Ferreira Industries</p>
         </div>
     </footer>
     </div>
