@@ -63,3 +63,7 @@ function submit() {
         timer_el.innerHTML = '00:00:00';
     }
 }
+
+$("#confirmation").click(function(){
+    $('#confirmation').modal();
+});
