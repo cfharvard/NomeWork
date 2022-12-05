@@ -11,16 +11,13 @@
         <thead>
             <th class="text-start">Class Name</th>
             <th class="text-end">Hours Spent</th>
-            <th class="text-end">Manage Class</th>
+            
         </thead>
         <tbody>
             {% for data in tabledata %}
                 <tr>
-                    <form action="/delete" method="post">
-                        <td class="text-start" name="classname" id="classname">{{ data[0] }}</td>
-                        <td class="text-end">{{ data[1] }}</td>
-                        <td class="text-end"><button type="submit" class="btn btn-danger">Delete Class</button></td>
-                    </form>
+                    <td class="text-start" name="classname" id="classname">{{ data[0] }}</td>
+                    <td class="text-end">{{ data[1] }}</td>
                 </tr>
             {% endfor %}
             
@@ -35,6 +32,26 @@
         </div>
         <button type="submit" class="btn btn-primary">Submit</button>
     </form>
+    <div class="mb-3">
+        <form action="/delete" method="post">
+            <div class="form-group">
+            <label for="classname">Delete Class</label>
+            <div>
+                <select class="form-select mx-auto w-auto" id="class" name="class">
+                    <!--Dropdown for classes -->
+                    <option disabled selected>Class</option>
+                    {% for class in classes %}
+        
+                        <option value="{{ class }}"> {{ class }} </option>
+        
+                    {% endfor %}
+                </select>
+            </div>
+
+            </div>
+            <button type="submit" class="btn btn-danger">Delete</button>
+        </form>
+    </div>
 </div>
 
 {% endblock %}

@@ -50,12 +50,18 @@ def index():
 
         tabledata = list(zip(classes, classtimes))
 
-        return render_template("index.html", tabledata=tabledata)
+        db.execute("SELECT name FROM classes WHERE user_id = ?", [session["user_id"]])
+        userclasses = db.fetchall()
+
+        classes = []
+        for x in range(len(userclasses)):
+            classes.append(userclasses[x][0])
+        return render_template("index.html", tabledata=tabledata, classes=classes)
 
 @app.route("/delete", methods=['POST'])
 @login_required
 def delete():
-    print(request.form.get("classname"))
+    print(request.form.get("class"))
     db.execute("DELETE FROM classes WHERE class")
     return redirect("/")
 
