@@ -16,9 +16,9 @@
         <tbody>
             {% for data in tabledata %}
                 <tr>
-                    <td class="text-start">{{ data[0] }}</td>
-                    <td class="text-end">{{ data[1] }}</td>
                     <form action="/delete" method="post">
+                        <td class="text-start" name="classname" id="classname">{{ data[0] }}</td>
+                        <td class="text-end">{{ data[1] }}</td>
                         <td class="text-end"><button type="submit" class="btn btn-danger">Delete Class</button></td>
                     </form>
                 </tr>
