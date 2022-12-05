@@ -6,4 +6,20 @@
 
 {% block body %}
 
+<div id="graph">
+    <form action="/analytics" method="POST">
+        <select class="form-select mx-auto w-auto" id="classanalytics" name="classanalytics">
+            <option disabled selected>Class</option>
+            {% for class in classes %}
+
+                <option value="{{ class }}"> {{ class }} </option>
+
+            {% endfor %}
+        </select>
+        <div>
+            <button class="btn btn-primary btn-sm" type="submit">Generate Graph</button>
+        </div>
+    </form>
+</div>
+
 {% endblock %}

@@ -56,10 +56,39 @@ def index():
         return render_template("index.html", tabledata=tabledata)
         
 
-@app.route("/analytics")
+@app.route("/analytics", methods=['GET', 'POST'])
 @login_required
 def analytics():
-    return render_template("analytics.html")
+    if request.method == "POST":
+        # Generates drop down menu
+        db.execute("SELECT name FROM classes WHERE user_id = ?", [session["user_id"]])
+        userclasses = db.fetchall()
+
+        classes = []
+        for x in range(len(userclasses)):
+            classes.append(userclasses[x][0])
+        
+        # Requests the class to make a graph of
+        class_graph = request.form.get("classanalytics")
+        print(session["user_id"])
+        db.execute("SELECT timestamp FROM times WHERE class_id in (SELECT id FROM classes WHERE name = ?) AND user_id in (SELECT id FROM users WHERE username = ?)", [class_graph, session["user_id"]])
+        timestamps = db.fetchall()
+        print(timestamps)
+
+        print(class_graph)
+
+        return render_template("analytics.html", classes = classes)
+
+    else:
+        print("Correct")
+        db.execute("SELECT name FROM classes WHERE user_id = ?", [session["user_id"]])
+        userclasses = db.fetchall()
+
+        classes = []
+        for x in range(len(userclasses)):
+            classes.append(userclasses[x][0])
+        
+        return render_template("analytics.html", classes=classes)
 
 @app.route("/home")
 def classes():
