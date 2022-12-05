@@ -54,7 +54,12 @@ def index():
         print(tabledata)
 
         return render_template("index.html", tabledata=tabledata)
-        
+
+@app.route("/delete", methods=['POST'])
+@login_required
+def delete():
+    db.execute("DELETE FROM classes WHERE class_id")
+    return redirect("/")
 
 @app.route("/analytics")
 @login_required
