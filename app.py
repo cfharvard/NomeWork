@@ -55,7 +55,8 @@ def index():
 @app.route("/delete", methods=['POST'])
 @login_required
 def delete():
-    db.execute("DELETE FROM classes WHERE class_id")
+    request.form.get("")
+    db.execute("DELETE FROM classes WHERE class_")
     return redirect("/")
 
 @app.route("/analytics", methods=['GET', 'POST'])
