@@ -6,7 +6,7 @@
 
 {% block body %}
 
-<div id="graph">
+<div id="selectclass">
     <form action="/analytics" method="POST">
         <select class="form-select mx-auto w-auto" id="classanalytics" name="classanalytics">
             <option disabled selected>Class</option>
@@ -20,6 +20,28 @@
             <button class="btn btn-primary btn-sm" type="submit">Generate Graph</button>
         </div>
     </form>
+    <canvas id="lineChart" width="900" height="400"></canvas>
+    <script>
+        var ctx = document.getElementById("lineChart").getContext("2d");
+        var lineChart = new Chart(ctx, {
+            type: "line",
+            data: {
+                labels: {{ seconds | safe }}
+                datasets: [
+                    {
+                        label: "Dates"
+                        data: {{ dates | safe }}
+                        fill: false,
+                        borderColor: "rgb(75, 192, 192)",
+                        lineTension: 0.1
+                    }
+                ]
+            }
+            options: {
+                responsive: false
+            }
+        })
+    </script>
 </div>
 
 {% endblock %}

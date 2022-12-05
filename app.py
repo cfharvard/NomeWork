@@ -4,6 +4,7 @@ from helpers import login_required
 import json
 import sqlite3
 from werkzeug.security import check_password_hash, generate_password_hash
+from datetime import date
 
 
 app = Flask(__name__)
@@ -80,14 +81,22 @@ def analytics():
         # Requests the class to make a graph of
         class_graph = request.form.get("classanalytics")
         print(session["user_id"])
-        db.execute("SELECT timestamp FROM times WHERE class_id = (SELECT id FROM classes WHERE name = ?)", [class_graph])
-        timestamps = db.fetchall()
-        print()
-        print(timestamps)
-        print()
-        print(class_graph)
+        db.execute("SELECT SUM(seconds) AS sumseconds, date FROM times WHERE class_id = (SELECT id FROM classes WHERE name = ?) GROUP BY date", [class_graph])
+        data = [
+            ("01-01-2020", 1567),
+            ("01-02-2020", 458),
+            ("01-03-2020", 347),
+            ("01-04-2020", 677),
+        ]
+        print(data)
 
-        return render_template("analytics.html", classes = classes)
+        seconds = [row[0] for row in data]
+        dates = [row[1] for row in data]
+
+        print(seconds)
+        print(dates)
+
+        return render_template("analytics.html", classes = classes, class_graph=class_graph, seconds=seconds, dates=dates)
 
     else:
         db.execute("SELECT name FROM classes WHERE user_id = ?", [session["user_id"]])
@@ -218,7 +227,9 @@ def timer():
         # changes seconds to hour format
         time = "{:.2f}".format(time/3600)
 
-        db.execute("INSERT INTO times (seconds, user_id, class_id) VALUES (?, ?, ?)", [time, session["user_id"], classid])
+        today = date.today()
+
+        db.execute("INSERT INTO times (seconds, user_id, class_id, date) VALUES (?, ?, ?, ?)", [time, session["user_id"], classid, today])
         con.commit()
 
         return render_template("timer.html")
