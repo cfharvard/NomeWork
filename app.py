@@ -30,8 +30,30 @@ def index():
         classes = []
         for x in range(len(userclasses)):
             classes.append(userclasses[x][0])
+        
+        db.execute("SELECT id FROM classes WHERE user_id = ?", [session["user_id"]])
+        classesid = db.fetchall()
 
-        return render_template("index.html", classes=classes)
+        ids = []
+        for x in range(len(classesid)):
+            ids.append(classesid[x][0])
+        
+        classtimes = []
+        for x in ids:
+            db.execute("SELECT SUM(seconds) FROM times WHERE class_id = ?", [x])
+            times = db.fetchone()[0]
+            classtimes.append(times)
+        
+        for x in range(len(classtimes)):
+            if classtimes[x] == None:
+                classtimes[x] = 0
+        
+        print(classtimes)
+
+        tabledata = list(zip(classes, classtimes))
+        print(tabledata)
+
+        return render_template("index.html", tabledata=tabledata)
         
 
 @app.route("/analytics")
@@ -159,10 +181,12 @@ def timer():
         classid = db.fetchone()[0]
         
         print(classid)
+        time = "{:.2f}".format(time/3600)
+        print(time)
 
         db.execute("INSERT INTO times (seconds, user_id, class_id) VALUES (?, ?, ?)", [time, session["user_id"], classid])
         con.commit()
-        
+
         return render_template("timer.html")
 
     else:

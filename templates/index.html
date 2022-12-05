@@ -13,10 +13,10 @@
             <th class="text-end">Hours Spent</th>
         </thead>
         <tbody>
-            {% for class in classes %}
+            {% for data in tabledata %}
                 <tr>
-                    <td class="text-start">{{ class }}</td>
-                    <!-- <td class="text-end">{{ times }}</td> -->
+                    <td class="text-start">{{ data[0] }}</td>
+                    <td class="text-end">{{ data[1] }}</td>
                 </tr>
             {% endfor %}
         </tbody>
