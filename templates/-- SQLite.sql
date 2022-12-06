@@ -31,3 +31,11 @@
 --     FOREIGN KEY (user_id) REFERENCES users(id)
 --     FOREIGN KEY (class_id) REFERENCES classes(id)
 -- );
+
+
+-- CREATE TABLE classes (
+--     id INTEGER PRIMARY KEY AUTOINCREMENT,
+--     name TEXT NOT NULL,
+--     user_id INTEGER NOT NULL,
+--     FOREIGN KEY (user_id) REFERENCES users (id)
+-- );

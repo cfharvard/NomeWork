@@ -89,6 +89,7 @@ def analytics():
         seconds = [row[0] for row in data]
         hours = ["{:.2f}".format(time/3600) for time in seconds]
         dates = [row[1] for row in data]
+        print(data)
 
         return render_template("analytics.html", classes = classes, class_graph=class_graph, hours=hours, dates=dates)
 
