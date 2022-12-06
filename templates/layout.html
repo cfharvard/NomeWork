@@ -21,12 +21,15 @@
     <div class="cover-container d-flex h-100 p-3 mx-auto flex-column">
       <header class="masthead mb-auto">
         <div class="inner">
+          <!--Displays Nomework without link if user is logged in-->
         {% if session["user_id"] %}
           <h3 class="masthead-brand">Nomework</h3>
         {% else %}
+        <!--Displays Nomework with link if user is not logged in to take them back to home page-->
           <h3><a class="masthead-brand" href="/home">Nomework</a></h3>
         {% endif %}
           <nav class="nav nav-masthead justify-content-center">
+            <!--Displays proper nav bar if user is logged in-->
           {% if session["user_id"] %}
             <a class="nav-link" href="/">Home</a>
               <a class="nav-link" href="/timer">Timer</a>

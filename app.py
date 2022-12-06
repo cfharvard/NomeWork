@@ -53,8 +53,10 @@ def index():
             if classtimes[x] == None:
                 classtimes[x] = 0
 
+        # Put values in the same tuple to properly iterate through in jinja
         tabledata = list(zip(classes, classtimes))
 
+        # Gets users classes to display in table
         db.execute("SELECT name FROM classes WHERE user_id = ?", [session["user_id"]])
         userclasses = db.fetchall()
 
