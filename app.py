@@ -55,6 +55,8 @@ def index():
 
         tabledata = list(zip(classes, classtimes))
 
+        
+
         db.execute("SELECT name FROM classes WHERE user_id = ?", [session["user_id"]])
         userclasses = db.fetchall()
 
@@ -66,6 +68,7 @@ def index():
 @app.route("/delete", methods=['POST'])
 @login_required
 def delete():
+    # Deletes classes from user's table
     db.execute("DELETE FROM classes WHERE name = ?", [request.form.get("class")])
     return redirect("/")
 
@@ -85,14 +88,18 @@ def analytics():
         class_graph = request.form.get("classanalytics")
         db.execute("SELECT SUM(seconds), date FROM times WHERE class_id = (SELECT id FROM classes WHERE name = ?) GROUP BY date", [class_graph])
         data = db.fetchall()
+        print(data)
 
         seconds = [row[0] for row in data]
+
+        # Formats time into hours to be displayed on the graph
         hours = ["{:.2f}".format(time/3600) for time in seconds]
         dates = [row[1] for row in data]
 
         return render_template("analytics.html", classes = classes, class_graph=class_graph, hours=hours, dates=dates)
 
     else:
+        # Generates drop down menu
         db.execute("SELECT name FROM classes WHERE user_id = ?", [session["user_id"]])
         userclasses = db.fetchall()
 
@@ -102,58 +109,51 @@ def analytics():
         
         return render_template("analytics.html", classes=classes)
 
-@app.route("/home")
-def classes():
-    return render_template("home.html")
-
 @app.route("/register", methods=['GET', 'POST'])
 def register():
     if request.method == "POST":
-        # checks if username is entered
+        # Checks if username is entered
         if not request.form.get("username"):
             flash('Enter Username')
             return render_template("register.html") 
 
-        # checks if password is entered
+        # Checks if password is entered
         if not request.form.get("password"):
             flash('Enter Password')
             return render_template("register.html") 
 
-        # checks if confirm is entered
+        # Checks if confirm is entered
         if not request.form.get("confirmation"):
             flash('Enter Confirmation')
             return render_template("register.html") 
 
-        # check if password and confirm are the same
+        # Check if password and confirm are the same
         if request.form.get("password") != request.form.get("confirmation"):
             flash('Password and Confirmation do not match')
             return render_template("register.html") 
 
-        # rows with that username (should be 0 b/c username shouldn't taken)
+        # Rows with that username (should be 0 b/c username shouldn't taken)
         db.execute("SELECT username FROM users WHERE username=?;", [request.form.get("username")])
         rows = db.fetchone()
 
-        # check if username is already taken
+        # Check if username is already taken
         if rows is not None:
             flash('Username is already taken')
             return render_template("register.html") 
 
-        # hash password
+        # Hash password
         hashed = generate_password_hash(request.form.get("password"))
 
-        # add username and password to database users table after passing all cases
+        # Add username and password to database users table after passing all cases
         db.execute("INSERT INTO users (username, hash) VALUES (?, ?)", (request.form.get("username"), hashed))
         con.commit()
 
-        # get id from updated users table
+        # Get id from updated users table
         rows = db.execute("SELECT id FROM users WHERE username=?", [request.form.get("username")])
-
-        # log user in
-        #session["user_id"] = rows.fetchall()[0]
 
         return render_template("login.html")
 
-    # when requested via get, display registration form
+    # When requested via get, display registration form
     else:
         return render_template("register.html")
 

@@ -18,7 +18,7 @@ submit_btn.addEventListener('click', submit);
 
 // Update the timer
 function timer() {
-    seconds++;
+    seconds+=1000;
 
     // Format our time
     let hrs = Math.floor(seconds / 3600);
