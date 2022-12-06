@@ -57,7 +57,7 @@ def index():
         classes = []
         for x in range(len(userclasses)):
             classes.append(userclasses[x][0])
-        return render_template("index.html", tabledata=tabledata, classes=classes)
+        return render_template("analyticstest.html", tabledata=tabledata, classes=classes)
 
 @app.route("/delete", methods=['POST'])
 @login_required
@@ -89,13 +89,19 @@ def analytics():
         ]
         print(data)
 
-        seconds = [row[0] for row in data]
-        dates = [row[1] for row in data]
+        # seconds = [row[0] for row in data]
+        # dates = [row[1] for row in data]
+        labels = []
+        values = []
 
-        print(seconds)
-        print(dates)
+        for row in data:
+            labels.append(row[0])
+            values.append(row[1])
 
-        return render_template("analytics.html", classes = classes, class_graph=class_graph, seconds=seconds, dates=dates)
+        print(labels)
+        print(values)
+
+        return render_template("analyticstest.html", classes = classes, class_graph=class_graph, labels=labels, values=values)
 
     else:
         db.execute("SELECT name FROM classes WHERE user_id = ?", [session["user_id"]])
