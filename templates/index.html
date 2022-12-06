@@ -19,7 +19,7 @@
             {% for data in tabledata %}
                 <tr>
                     <td class="text-start" name="classname" id="classname">{{ data[0] }}</td>
-                    <td class="text-end">{{ data[1] }}</td>
+                    <td class="text-end">{{ (data[1] / 3600)|round }}</td>
                 </tr>
             {% endfor %} 
         </tbody>
