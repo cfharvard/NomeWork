@@ -1,16 +1,16 @@
-//Global variables
+// Global variables
 const timer_el = document.querySelector('.watch .time');
 const start_btn = document.getElementById('start');
 const stop_btn = document.getElementById('stop');
 const reset_btn = document.getElementById('reset');
 const submit_btn = document.getElementById('submit')
-let stopreq = false;
+let stopreq = false; // Prevents submission if time is not stopped
 
-let seconds = 0;
-let classname = null;
-let interval = null;
+let seconds = 0; // Variable that tracks time in the timer
+let classname = null; // Variable that tracks class name
+let interval = null; // Variable used for setinterval function
 
-//Event listeners
+// Event listeners for the buttons in the timer
 start_btn.addEventListener('click', start);
 stop_btn.addEventListener('click', stop);
 reset_btn.addEventListener('click', reset);
@@ -32,6 +32,7 @@ function timer() {
     timer_el.innerHTML = `${hrs}:${mins}:${secs}`;
 }
 
+// Start button
 function start() {
     if (interval) {
         return
@@ -42,21 +43,25 @@ function start() {
     
 }
 
+// Stop button
 function stop() {
     clearInterval(interval);
     interval = null;
     stopreq = true;
 }
 
+// Reset button
 function reset() {
     stop();
     seconds = 0;
     timer_el.innerHTML = '00:00:00';
 }
 
+// Submit button
 function submit() {
     if (seconds > 0)
     {
+        // Sends seconds variable from JS to Python/Flask code
         request = new XMLHttpRequest();
         request.open('POST', `/submit/${JSON.stringify(seconds)}`);
         request.send();
@@ -64,6 +69,3 @@ function submit() {
     }
 }
 
-$("#confirmation").click(function(){
-    $('#confirmation').modal();
-});

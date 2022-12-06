@@ -6,7 +6,7 @@ import sqlite3
 from werkzeug.security import check_password_hash, generate_password_hash
 from datetime import date
 
-
+# Initializes app for the user
 app = Flask(__name__)
 app.config["SESSION_PERMANENT"] = False
 app.config["SESSION_TYPE"] = "filesystem"
@@ -20,11 +20,13 @@ time = 0
 @login_required
 def index():
     if request.method == "POST":
+        # Logs user in
         db.execute("INSERT INTO classes (name, user_id) VALUES (?, ?)", [request.form.get("classname"), session["user_id"]])
         con.commit()
         return redirect("/")
 
     else:
+        # Selects list of user's classes from the database to be displayed
         db.execute("SELECT name FROM classes WHERE user_id = ?", [session["user_id"]])
         userclasses = db.fetchall()
 
@@ -32,6 +34,7 @@ def index():
         for x in range(len(userclasses)):
             classes.append(userclasses[x][0])
         
+        # Selects class ids from databse to find class times
         db.execute("SELECT id FROM classes WHERE user_id = ?", [session["user_id"]])
         classesid = db.fetchall()
 
@@ -39,6 +42,7 @@ def index():
         for x in range(len(classesid)):
             ids.append(classesid[x][0])
         
+        # Selects class times from the database to be displayed
         classtimes = []
         for x in ids:
             db.execute("SELECT SUM(seconds) FROM times WHERE class_id = ?", [x])
