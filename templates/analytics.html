@@ -22,27 +22,34 @@
             <button class="btn btn-primary btn-sm" type="submit">Generate Graph</button>
         </div>
     </form>
-    <canvas id="lineChart" width="900" height="400"></canvas>
+    <div>
+        <canvas id="myChart" width="900" height="400"></canvas>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
     <script>
-        var ctx = document.getElementById("lineChart").getContext("2d");
-        var lineChart = new Chart(ctx, {
-            type: "line",
-            data: {
-                labels: {{ seconds | safe }}
-                datasets: [
-                    {
-                        label: "Dates"
-                        data: {{ dates | safe }}
-                        fill: false,
-                        borderColor: "rgb(75, 192, 192)",
-                        lineTension: 0.1
-                    }
-                ]
+        const ctx = document.getElementById('myChart');
+    
+        new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: {{ dates | safe}},
+            datasets: [{
+            label: 'Hours spent working on {{ class_graph }}',
+            data: {{hours | safe}},
+            borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
             }
-            options: {
-                responsive: false
-            }
-        })
+        }
+        });
+
     </script>
 </div>
 

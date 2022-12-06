@@ -57,7 +57,7 @@ def index():
         classes = []
         for x in range(len(userclasses)):
             classes.append(userclasses[x][0])
-        return render_template("analyticstest.html", tabledata=tabledata, classes=classes)
+        return render_template("index.html", tabledata=tabledata, classes=classes)
 
 @app.route("/delete", methods=['POST'])
 @login_required
@@ -79,29 +79,14 @@ def analytics():
         
         # Requests the class to make a graph of
         class_graph = request.form.get("classanalytics")
-        print(session["user_id"])
-        db.execute("SELECT SUM(seconds) AS sumseconds, date FROM times WHERE class_id = (SELECT id FROM classes WHERE name = ?) GROUP BY date", [class_graph])
-        data = [
-            ("01-01-2020", 1567),
-            ("01-02-2020", 458),
-            ("01-03-2020", 347),
-            ("01-04-2020", 677),
-        ]
-        print(data)
+        db.execute("SELECT SUM(seconds), date FROM times WHERE class_id = (SELECT id FROM classes WHERE name = ?) GROUP BY date", [class_graph])
+        data = db.fetchall()
 
-        # seconds = [row[0] for row in data]
-        # dates = [row[1] for row in data]
-        labels = []
-        values = []
+        seconds = [row[0] for row in data]
+        hours = ["{:.2f}".format(time/3600) for time in seconds]
+        dates = [row[1] for row in data]
 
-        for row in data:
-            labels.append(row[0])
-            values.append(row[1])
-
-        print(labels)
-        print(values)
-
-        return render_template("analyticstest.html", classes = classes, class_graph=class_graph, labels=labels, values=values)
+        return render_template("analytics.html", classes = classes, class_graph=class_graph, hours=hours, dates=dates)
 
     else:
         db.execute("SELECT name FROM classes WHERE user_id = ?", [session["user_id"]])
@@ -230,14 +215,21 @@ def timer():
         classid = db.fetchone()[0]
 
         # changes seconds to hour format
-        time = "{:.2f}".format(time/3600)
+        #time = "{:.2f}".format(time/3600)
 
         today = date.today()
 
         db.execute("INSERT INTO times (seconds, user_id, class_id, date) VALUES (?, ?, ?, ?)", [time, session["user_id"], classid, today])
         con.commit()
 
-        return render_template("timer.html")
+        db.execute("SELECT name FROM classes WHERE user_id = ?", [session["user_id"]])
+        userclasses = db.fetchall()
+
+        classes = []
+        for x in range(len(userclasses)):
+            classes.append(userclasses[x][0])
+
+        return render_template("timer.html", classes=classes)
 
     else:
         db.execute("SELECT name FROM classes WHERE user_id = ?", [session["user_id"]])
