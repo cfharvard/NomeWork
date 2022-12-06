@@ -55,8 +55,6 @@ def index():
 
         tabledata = list(zip(classes, classtimes))
 
-        
-
         db.execute("SELECT name FROM classes WHERE user_id = ?", [session["user_id"]])
         userclasses = db.fetchall()
 
@@ -202,7 +200,9 @@ def login():
 @app.route('/submit/<string:seconds>', methods=["GET","POST"])
 @login_required
 def submit(seconds):
+    # Takes in the global variable time to be updated for @app.route("/timer")
     global time
+    # Loads json object from timer.js to go into @app.route("/timer")
     time = json.loads(seconds)
     
     return redirect("/timer")
@@ -211,22 +211,24 @@ def submit(seconds):
 @login_required
 def timer():
     if request.method == "POST":
+        # Takes in the global variable time
         global time
         
+        # Gets the class from the drop down on the html page
         classname = request.form.get("class")
 
-        # add seconds to database
+        # Add seconds to database
         db.execute("SELECT id FROM classes WHERE user_id = ? AND name = ?", [session["user_id"], classname])
         classid = db.fetchone()[0]
 
-        # changes seconds to hour format
-        #time = "{:.2f}".format(time/3600)
-
+        # Logs the date at time of submission
         today = date.today()
 
+        # Inserts submission data into SQL
         db.execute("INSERT INTO times (seconds, user_id, class_id, date) VALUES (?, ?, ?, ?)", [time, session["user_id"], classid, today])
         con.commit()
 
+        # Generates drop down to select class
         db.execute("SELECT name FROM classes WHERE user_id = ?", [session["user_id"]])
         userclasses = db.fetchall()
 
@@ -237,6 +239,7 @@ def timer():
         return render_template("timer.html", classes=classes)
 
     else:
+        # Generates drop down to select class
         db.execute("SELECT name FROM classes WHERE user_id = ?", [session["user_id"]])
         userclasses = db.fetchall()
 
