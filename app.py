@@ -199,6 +199,10 @@ def login():
     else:
         return render_template("login.html")
 
+@app.route("/home")
+def home():
+    return render_template("home.html")
+
 @app.route('/submit/<string:seconds>', methods=["GET","POST"])
 @login_required
 def submit(seconds):
@@ -206,7 +210,7 @@ def submit(seconds):
     global time
     # Loads json object from timer.js to go into @app.route("/timer")
     time = json.loads(seconds)
-    
+
     return redirect("/timer")
     
 @app.route("/timer", methods=["GET","POST"])
