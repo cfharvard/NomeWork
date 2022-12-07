@@ -69,7 +69,7 @@ def index():
 @login_required
 def delete():
     # Deletes classes from user's table
-    db.execute("DELETE FROM classes WHERE name = ?", [request.form.get("class")])
+    db.execute("DELETE FROM classes WHERE name = ? AND user_id = ?", [request.form.get("class"), session["user_id"]])
     return redirect("/")
 
 @app.route("/analytics", methods=['GET', 'POST'])
