@@ -1,1 +1,14 @@
 # CS50 Final Project!
+Link to walkthrough: https://youtu.be/HhtDrVaNNyY
+
+In order to configure our application, you must use the "flask run" command which will generate a link that will allow you to view the webpage. From there, you will be redirected to the login page to login if you have an existing account. As a new user, you can click the "Nomework" header in the top mid-left corner to redirect you to the home page where you will view the welcome page of the website and the register button to register.
+
+Once successfully registering and creating an acount, you will be redirected to your user homepage which has an empty table and two forms to maange your classes. You can start off by adding your current classes so they can be displayed on the table, they will default to 0 hours spent on that class because you have yet to use the timer feature. If you make a mistake (upload the wrong class or make a typo), you can delete the class from the dropdown menu and add it again. Aside from the homepage, you can access the timer page which is where the data comes from. Feel free to have the application running in the background as you do work for a class, and come back to the page when you are ready to submit the time as your study session comes to an end. Once you submit the time, you must submit the class you were working on directly after with the form below. 
+
+After submitting your first study session, you will be able to see an updated amount of hours spent on that class on your homepage. If you only run the timer for a couple of seconds, you will still see 0 hours spent because the application rounds the time to about 1-2 decimal points and some times are only 0.001 of an hour. We have included sample data in our video walkthrough to show how our application works after a user has continously used our application for a couple of weeks. 
+
+By clicking the analytics page in the navigation bar, you will be directed to a page with a dropdown menu where you can select one of your classes to generate a graph for. After clicking generate graph, a line graph will appear with the data that is stored in your account for each of your study sessions for that class. After using it over the course of days, the line graph will start to connect and form a solid line. However, if you only have one piece of data from one day (as the grader may have) it will be a dot on y axis of the graph. Once again, this displays better with data over the course of days or even weeks, which is why we have used sample data in our video walkthrough. 
+
+If you would like to access the sample data, you can login using the username: hanna1 and password: 2004.
+
+Good luck studying!
