@@ -88,14 +88,12 @@ def analytics():
         class_graph = request.form.get("classanalytics")
         db.execute("SELECT SUM(seconds), date FROM times WHERE class_id = (SELECT id FROM classes WHERE name = ?) GROUP BY date", [class_graph])
         data = db.fetchall()
-        print(data)
 
         seconds = [row[0] for row in data]
 
         # Formats time into hours to be displayed on the graph
         hours = ["{:.2f}".format(time/3600) for time in seconds]
         dates = [row[1] for row in data]
-        print(data)
 
         return render_template("analytics.html", classes = classes, class_graph=class_graph, hours=hours, dates=dates)
 
